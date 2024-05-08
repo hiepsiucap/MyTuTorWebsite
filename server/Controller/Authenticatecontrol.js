@@ -138,11 +138,13 @@ const LogOut = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "user logged out!" });
 };
 const CheckLogin = async (req, res) => {
-  const user = await User.find({ _id: req.user.UserId });
+  const user = await User.findOne({ _id: req.user.UserId });
+  console.log(user);
   if (!user) {
     throw new CustomAPIError.AuthorizeError("Xác thực không thành công côn");
   }
   const tokenUser = CreateJwtUser(user);
+  console.log(tokenUser);
   res.status(StatusCodes.OK).json({ user: tokenUser });
 };
 module.exports = { Login, Register, VerifyEmail, LogOut, CheckLogin };

@@ -9,6 +9,9 @@ const initial = {
   id: "",
   isSign: false,
 };
+const SavetoSessionStorage = (user) => {
+  window.sessionStorage.setItem("results", JSON.stringify(user));
+};
 export const UserSlice = createSlice({
   name: "user",
   initialState: initial,
@@ -21,6 +24,7 @@ export const UserSlice = createSlice({
       state.ava = action.payload?.ava;
       state.isSign = true;
       state.id = action.payload?._id;
+      SavetoSessionStorage(state);
     },
     Logout: (state) => {
       state.name = "";

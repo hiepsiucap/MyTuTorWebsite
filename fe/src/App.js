@@ -24,7 +24,10 @@ import "./App.css";
 import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
 import Hero from "./components/Hero";
 import { useEffect } from "react";
+import { Logout, CreateNewUser } from "./features/counter/UserSlice";
+
 function App() {
+  const dispatch = useDispatch();
   const router = createBrowserRouter([
     {
       path: "/",
@@ -87,8 +90,23 @@ function App() {
       ],
     },
   ]);
-  const dispatch = useDispatch();
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const Checklogin = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:4000/api/v1/auth/checklogin"
+        );
+        if (!response.ok) {
+          dispatch(Logout());
+        } else {
+          dispatch(CreateNewUser(response?.user));
+        }
+      } catch (err) {
+        dispatch(Logout());
+      }
+    };
+    Checklogin();
+  }, []);
   return (
     <>
       <RouterProvider router={router} />
