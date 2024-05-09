@@ -1,10 +1,16 @@
 /** @format */
 import start from "../assets/start.png";
 import Yellowstart from "../assets/yellowstart";
+import { motion } from "framer-motion";
 const Rate = () => {
   return (
     <>
-      <div className=" flex justify-around bg-white py-10">
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+        className=" flex justify-around bg-white py-10"
+      >
         <div className="flex items-center space-x-2">
           <h1 className="font-bold text-2xl mt-1 ">20,000</h1>
           <Yellowstart />
@@ -31,7 +37,7 @@ const Rate = () => {
             Cộng đồng hơn 10,000+ sử dụng
           </h1>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

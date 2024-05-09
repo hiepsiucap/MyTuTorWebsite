@@ -1,6 +1,6 @@
 /** @format */
 
-const CustomError = require("../errors/index");
+const CustomError = require("../errors/index").default;
 const StatusCodes = require("http-status-codes");
 const { attachCookiesToResponse } = require("../utils/jwt");
 const createUser = require("../utils/CreateUserJWt");

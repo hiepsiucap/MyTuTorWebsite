@@ -1,10 +1,16 @@
 /** @format */
 import hero from "../assets/hero.png";
+import { motion } from "framer-motion";
 const Hero = () => {
   return (
     <>
       <section className="sm:container mx-auto flex py-24 px-10 justify-between space-x-20 items-center">
-        <div className="flex flex-col space-y-6 w-1/2">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9, x: -50 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col space-y-6 w-1/2"
+        >
           <h1 className="text-5xl  font-bold font-sans leading-tight">
             KẾT NỐI TRI THỨC,<br></br>PHÁT HUY TIỀM NĂNG
           </h1>
@@ -38,10 +44,15 @@ const Hero = () => {
               Bắt đầu ngay
             </button>
           </div>
-        </div>
-        <div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9, x: 50 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex flex-col space-y-6 w-1/2"
+        >
           <img src={hero} alt="" className="" />
-        </div>
+        </motion.div>
       </section>
     </>
   );

@@ -2,7 +2,7 @@
 
 const { StatusCodes } = require("http-status-codes");
 const message = require("../Models/message");
-const CustomAPIError = require("../errors/index");
+const CustomAPIError = require("../errors/index").default;
 
 const createMessage = async (req, res) => {
   const { chatId, text, senderId } = req.body;

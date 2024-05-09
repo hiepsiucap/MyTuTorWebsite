@@ -2,7 +2,7 @@
 
 const jwt = require("jsonwebtoken");
 const { isTokenValid, attachCookiesToResponse } = require("../utils/jwt");
-const CustomError = require("../errors/index");
+const CustomError = require("../errors/index").default;
 const Token = require("../Models/Token");
 const authentication = async (req, res, next) => {
   const { refreshToken, accessToken } = req.signedCookies;

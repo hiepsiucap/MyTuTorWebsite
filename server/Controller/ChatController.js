@@ -2,7 +2,7 @@
 
 const { StatusCodes } = require("http-status-codes");
 const chatModel = require("../Models/Chat");
-const CustomAPIError = require("../errors/index");
+const CustomAPIError = require("../errors/index").default;
 const User = require("../Models/User");
 
 const createChat = async (req, res) => {

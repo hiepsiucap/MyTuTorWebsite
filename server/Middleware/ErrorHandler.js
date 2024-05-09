@@ -23,6 +23,5 @@ const ErrorHandler = (err, req, res, next) => {
     CustomError.StatusCodes = 404;
   }
   res.status(CustomError.StatusCodes).json({ msg: CustomError.msg });
-  next(err);
 };
 module.exports = { ErrorHandler };

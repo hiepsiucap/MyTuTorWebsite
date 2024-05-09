@@ -38,9 +38,9 @@ const NavBar = () => {
       <ToastContainer></ToastContainer>
       <nav className="container-md">
         <div className="flex justify-between items-center px-2 py-2">
-          <div>
+          <Link to="/">
             <img src={logo} alt="" className="w-32 h-16" />
-          </div>
+          </Link>
           <div className=" flex justify-between space-x-12 flex-row">
             {links.map((link) => {
               return (
@@ -103,6 +103,7 @@ const NavBar = () => {
                       </svg>
                       <p>Thông tin cá nhân </p>
                     </Link>
+
                     <Link className="text-sm font-medium text-gray-600 border-b pb-2 border-gray-200 flex justify-start items-center space-x-2">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +121,10 @@ const NavBar = () => {
                       </svg>
                       <p> Các lớp đã đăng ký </p>
                     </Link>
-                    <Link className=" text-sm font-medium text-gray-600 border-b pb-2 border-gray-200 flex justify-start items-center space-x-2">
+                    <Link
+                      to="/recenttutor"
+                      className=" text-sm font-medium text-gray-600 border-b pb-2 border-gray-200 flex justify-start items-center space-x-2"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

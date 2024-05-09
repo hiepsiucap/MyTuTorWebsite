@@ -10,13 +10,49 @@ import {
   CreateAChat,
   ChangeError,
 } from "../features/counter/ChatSlice";
+import "react-notifications/lib/notifications.css";
+import {
+  NotificationContainer,
+  NotificationManager,
+} from "react-notifications";
 import { CreateMessageChat } from "../features/counter//MesseageSlice";
 import Swal from "sweetalert2";
 const SinglePageTutor = () => {
+  useEffect(() => {
+    // Scroll to the top when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
   const name = useSelector((state) => state.user.name);
   const { id } = useParams();
   const navigate = useNavigate();
   const [singleTutor, changesingleTutor] = useState([]);
+  const SaveProfileHanlder = async () => {
+    try {
+      const result = await postRequest(
+        "http://localhost:4000/api/v1/listlike",
+        {
+          tutorid: id,
+        }
+      );
+      if (result?.error) {
+        NotificationManager.error(
+          result.message,
+          "Nhấn vào đây để kết thúc!",
+          5000,
+          () => {
+            alert("Bạn đã thêm vào danh sách yêu thích ");
+          }
+        );
+      } else {
+        NotificationManager.success(
+          "Thêm vào thành công",
+          "Xem danh sách yêu thích trong profile của bạn"
+        );
+      }
+    } catch (err) {
+      navigate("/");
+    }
+  };
   const [messeage, ChangeMesseage] = useState(`tôi là ${name}
   Xin chào ${singleTutor.name}, tôi đang tìm một gia sư. Bạn có sẵn sàng cho một cuộc họp miễn phí không? Tôi muốn tìm hiểu thêm về cách bạn làm việc. Tôi đang mong chờ câu trả lời của bạn!`);
   const onSubmitHandler = async (e) => {
@@ -89,6 +125,7 @@ const SinglePageTutor = () => {
   // console.log(singleTutor);
   return (
     <section className="mx-auto lg:container flex space-x-5">
+      <NotificationContainer />
       <div className="w-4/5 bg-white py-10 px-5">
         <div className="flex space-x-5">
           <img
@@ -131,7 +168,10 @@ const SinglePageTutor = () => {
             <p className=" text-primary text-sm font-medium">Xem thêm</p>
           </div>
 
-          <button className=" bg-button p-2 px-3 rounded-md flex space-x-2 translate-y-14  items-center">
+          <button
+            className=" bg-button p-2 px-3 rounded-md flex space-x-2 translate-y-14  items-center"
+            onClick={SaveProfileHanlder}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

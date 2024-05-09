@@ -10,18 +10,9 @@ const ClassSchema = new mongoose.Schema(
       maxlength: 30,
       minlenth: 3,
     },
-    maxStudent: {
-      type: Number,
-      require: [true, "Please provide the maxStudent"],
-    },
-    signedUpStudent: {
-      type: Number,
-      default: 0,
-    },
-    location: {
-      type: String,
-      enum: ["HCM", "HaNoi", "DaNang", "Hue"],
-      require: [true, "Please provide The Location of class"],
+    student: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
     description: {
       type: String,
@@ -29,7 +20,7 @@ const ClassSchema = new mongoose.Schema(
     },
     Tutor: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Tutor",
     },
     firstDay: {
       type: Date,

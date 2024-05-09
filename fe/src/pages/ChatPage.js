@@ -14,6 +14,7 @@ import {
 } from "../features/counter/MesseageSlice";
 import { fetchUserChats } from "../features/counter/ChatSlice";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 const host = "http://localhost:4000";
 const ChatPage = () => {
   const socketRef = useRef();
@@ -63,7 +64,7 @@ const ChatPage = () => {
   const sendMessage = (e) => {
     e.preventDefault();
     console.log(user);
-    if (mess !== null && user.id) {
+    if (mess !== null && mess.length > 0 && user.id) {
       const msg = {
         chatId: idchat,
         senderId: user.id,
@@ -74,12 +75,42 @@ const ChatPage = () => {
       Chmes("");
     }
   };
+  // Tham chiếu đến phần tử cuối cùng trong danh sách tin nhắn
+  const messagesEndRef = useRef(null);
+
+  // Effect hook để scroll xuống cuối cùng khi có tin nhắn mới
+  useEffect(() => {
+    scrollToBottom();
+  }, [listofmess]); // Scroll xuống cuối cùng mỗi khi listofmess thay đổi
+
+  // Hàm scroll xuống cuối cùng
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   console.log(userChat);
   return (
     <>
       <div class="flex h-screen antialiased bg-white text-gray-800 ">
         <div class="flex flex-row h-full w-full overflow-x-hidden">
           <div class="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
+            <Link to="/" className=" flex space-x-2 items-center pb-5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-4 h-4"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"
+                />
+              </svg>
+              <p className=" text-gray-700  text-sm ">Trở về trang chủ</p>
+            </Link>
             <div class="flex flex-row items-center justify-center h-12 w-full">
               <div class="flex items-center justify-center rounded-2xl text-primary bg- h-10 w-10">
                 <svg
@@ -146,8 +177,29 @@ const ChatPage = () => {
                 <div class="flex flex-col h-full">
                   <div class="grid grid-cols-12 gap-y-2">
                     {listofmess?.length &&
-                      listofmess.map((m) => {
-                        if (m.senderId !== user.id)
+                      listofmess.map((m, index) => {
+                        if (m.senderId !== user.id) {
+                          if (index === listofmess.length - 1) {
+                            return (
+                              <div
+                                ref={messagesEndRef}
+                                class="col-start-1 col-end-8 p-3 rounded-lg"
+                              >
+                                <div class="flex flex-row items-center">
+                                  <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
+                                    <img
+                                      src={ava}
+                                      alt=""
+                                      className=" rounded-full h-10 w-10"
+                                    />
+                                  </div>
+                                  <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                                    <div>{m.text}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          }
                           return (
                             <div class="col-start-1 col-end-8 p-3 rounded-lg">
                               <div class="flex flex-row items-center">
@@ -164,7 +216,28 @@ const ChatPage = () => {
                               </div>
                             </div>
                           );
-                        else
+                        } else {
+                          if (index === listofmess.length - 1) {
+                            return (
+                              <div
+                                ref={messagesEndRef}
+                                class="col-start-6 col-end-13 p-3 rounded-lg -z-1"
+                              >
+                                <div class="flex items-center justify-start flex-row-reverse ">
+                                  <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">
+                                    <img
+                                      src={user.ava}
+                                      alt=""
+                                      className="w-10 h-10 rounded-full"
+                                    />
+                                  </div>
+                                  <div class=" mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
+                                    <div>{m.text}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          }
                           return (
                             <div class="col-start-6 col-end-13 p-3 rounded-lg -z-1">
                               <div class="flex items-center justify-start flex-row-reverse ">
@@ -181,6 +254,7 @@ const ChatPage = () => {
                               </div>
                             </div>
                           );
+                        }
                       })}
                   </div>
                 </div>

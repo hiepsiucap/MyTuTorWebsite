@@ -9,7 +9,7 @@ import StudyResource from "../components/StudyResource";
 import Testimonial from "../components/testimonial";
 import CTA from "../components/CTA";
 import { useSelector } from "react-redux";
-
+import { motion } from "framer-motion";
 const HomePage = () => {
   const user = useSelector((state) => state.user);
   console.log(user);

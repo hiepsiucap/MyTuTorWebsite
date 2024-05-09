@@ -4,24 +4,23 @@ const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
 const cors = require("cors");
-const CustomAPIError = require("./errors/index");
+const CustomAPIError = require("./errors/index").default;
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
+require("express-async-errors");
 const Message = require("./Models/message");
 const { ErrorHandler } = require("./Middleware/ErrorHandler");
 const Authroute = require("./route/Authenticateroute");
 const ClassRoute = require("./route/ClassRoute");
 const ChatRoute = require("./route/ChatRoute");
 const UserRouter = require("./route/UserRoute");
+const ListLikeRouter = require("./route/ListLikeroute");
 const TutorRouter = require("./route/TutorRoute");
 const MessageRouter = require("./route/messageRoute");
 const connectDB = require("./DB/connect");
 const multer = require("multer");
 const NotFound = require("./Middleware/Notfound");
-
 const app = express();
-const server = http.createServer(app); // Tạo máy chủ HTTP từ ứng dụng Express
-
 app.use(express.json());
 app.use(cookieParser("secret"));
 app.set("trust proxy", 1);
@@ -32,9 +31,7 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-  res.send("Hello world");
-});
+const server = http.createServer(app); // Tạo máy chủ HTTP từ ứng dụng Express
 const io = socketIo(server, {
   cors: {
     origin: "*",
@@ -64,10 +61,10 @@ app.use("/api/v1/class", ClassRoute);
 app.use("/api/v1/users/", UserRouter);
 app.use("/api/v1/tutors/", TutorRouter);
 app.use("/api/v1/chats/", ChatRoute);
+app.use("/api/v1/listlike/", ListLikeRouter);
 app.use("/api/v1/messages/", MessageRouter);
-app.use(ErrorHandler);
 app.use(NotFound);
-
+app.use(ErrorHandler);
 const connectDataBase = async () => {
   try {
     await connectDB(process.env.MONGODB);

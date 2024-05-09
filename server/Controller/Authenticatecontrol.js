@@ -1,7 +1,7 @@
 /** @format */
 
 const { StatusCodes } = require("http-status-codes");
-const CustomAPIError = require("../errors/index");
+const CustomAPIError = require("../errors");
 const User = require("../Models/User");
 const CreateJwtUser = require("../utils/CreateUserJWt");
 const bcrypt = require("bcrypt");

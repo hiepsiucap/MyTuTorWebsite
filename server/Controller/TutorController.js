@@ -1,6 +1,6 @@
 /** @format */
 
-const CustomError = require("../errors/index");
+const CustomError = require("../errors/index").default;
 const StatusCodes = require("http-status-codes");
 const { attachCookiesToResponse } = require("../utils/jwt");
 const createUser = require("../utils/CreateUserJWt");
@@ -14,10 +14,8 @@ const CreateTutor = async (req, res) => {
     { _id: id },
     "-password -VerificationToken -IsVerification"
   );
-  console.log(user);
   if (!user) throw new CustomError.BadRequestError("Authorize Error");
   const data = req.body;
-  console.log(data);
   const response = Tutor.create({
     ...data,
     user: id,

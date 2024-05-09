@@ -24,6 +24,7 @@ import "./App.css";
 import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
 import Hero from "./components/Hero";
 import { useEffect } from "react";
+import RecentTutor from "./pages/RecentTutor";
 import { Logout, CreateNewUser } from "./features/counter/UserSlice";
 
 function App() {
@@ -84,10 +85,14 @@ function App() {
           element: <BeATutorPage></BeATutorPage>,
         },
         {
-          path: "/chat",
-          element: <ChatPage></ChatPage>,
+          path: "/recenttutor",
+          element: <RecentTutor></RecentTutor>,
         },
       ],
+    },
+    {
+      path: "/chat",
+      element: <ChatPage></ChatPage>,
     },
   ]);
   useEffect(() => {
